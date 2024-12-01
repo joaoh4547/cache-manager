@@ -6,7 +6,7 @@
 
 # BlueJ files
 *.ctxt
-
+target/
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -23,3 +23,4 @@
 hs_err_pid*
 replay_pid*
 /.idea/
+/cache-manager-api.iml
