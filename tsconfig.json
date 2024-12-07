@@ -11,13 +11,25 @@
     "allowJs": true,
     "outDir": "build",
     "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
   },
   "exclude": [
     "node_modules",
-    "eslint.config.js"
+    "eslint.config.mjs"
+  ],
+  "typeRoots": [
+    "./node_modules/@types",
+    "./src/@types"
   ]
 }
