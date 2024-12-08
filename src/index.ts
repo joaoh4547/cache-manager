@@ -7,7 +7,7 @@ import {format} from "date-fns";
 
 import 'dotenv/config'
 import {RedisManager} from "./lib/redis";
-import * as process from "node:process";
+import routes from './routes'
 
 
 const PORT = process.env.PORT || 4000;
@@ -40,12 +40,7 @@ app.use(
     })
 );
 
-
-app.get('/', (req, res) => {
-    const reqId = req.headers['X-Request-ID']
-    logger.info('Request ID in Response: ' + reqId);
-    res.status(200).json({message: 'Hello, world!', requestId: reqId});
-});
+app.use(routes);
 
 
 (async () => {
