@@ -2,8 +2,13 @@ import express, {NextFunction, Request, Response} from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import {v4 as uuidv4} from 'uuid';
-import logger from "@/lib/logguer";
+import logger from "./lib/logguer";
 import {format} from "date-fns";
+
+import 'dotenv/config'
+import {RedisManager} from "./lib/redis";
+import * as process from "node:process";
+
 
 const PORT = process.env.PORT || 4000;
 const HOSTNAME = process.env.HOSTNAME || 'http://localhost';
@@ -17,7 +22,6 @@ const requestIdMiddleware = (req: Request, res: Response, next: NextFunction) =>
 };
 
 app.use(requestIdMiddleware);
-
 
 app.use(cors());
 app.use(express.json());
@@ -43,6 +47,15 @@ app.get('/', (req, res) => {
     res.status(200).json({message: 'Hello, world!', requestId: reqId});
 });
 
-app.listen(PORT, () => {
-    logger.info(`Server running on ${HOSTNAME}:${PORT}`);
-});
+
+(async () => {
+    try {
+        await RedisManager.getInstance().testRedisConnection()
+        app.listen(PORT, () => {
+            logger.info(`Server running on ${HOSTNAME}:${PORT}`);
+        });
+    } catch (e) {
+        logger.log('fatal', 'Erro: ' + e)
+        process.exit(1)
+    }
+})()
